@@ -7,17 +7,19 @@ const token = process.env.ACCESS_TOKEN;
 describe('Consuming service PUT github', ()=>{
 	it('following an user', async () => {
 		const response = await agent.put('https://api.github.com/user/following/aperdomob')
-		.set('Content-Length',0)
-		.set('accept', 'application/vnd.github.v3+json')
 		.auth('token', token)
- 		.set('User-Agent', 'agent');
+ 		.set('User-Agent', 'agent')
+ 		.set('accept', 'application/vnd.github.v3+json');
+ 		expect(response.status).to.equal(statusCode.NO_CONTENT);
 	});
 	it('looking if user follows apendomob', async () => {
+		//	if I use put here it explodes
 		const response = await agent.get('https://api.github.com/user/following')
 		.auth('token', token)
- 		.set('User-Agent', 'agent');
+ 		.set('User-Agent', 'agent')
+ 		.set('accept', 'application/vnd.github.v3+json');
  		const followed_user = response.body.find(user => user.login==='aperdomob');
- 		expect(followed_user);
+ 		expect(followed_user.login).to.equal('aperdomob');
 	});
 
 });

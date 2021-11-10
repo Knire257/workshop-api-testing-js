@@ -6,7 +6,7 @@ chai.use(chaiSubset);
 const fs = require('fs');
 const { expect } = chai;
 
-describe('Consuming methods github', () => {
+describe('Consuming method GET github', () => {
 	it('Consume GET Service', async () => {
 		const response = await agent.get('https://api.github.com/users/aperdomob')
 			.set('User-Agent', 'agent');
