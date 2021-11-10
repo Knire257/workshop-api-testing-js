@@ -1,6 +1,8 @@
 const agent = require('superagent');
 const statusCode = require('http-status-codes');
-const chai = require('chai');
+var chai = require('chai');
+var chaiSubset = require('chai-subset');
+chai.use(chaiSubset);
 const fs = require('fs');
 const { expect } = chai;
 
@@ -34,5 +36,16 @@ describe('Consuming methods github', () => {
 			.set('accept','*')
 			.set('accept-encoding', 'gzip, deflate, br')
 			.pipe(fs.createWriteStream('master.zip'));
+	});
+	it('Getting repo readme metadata', async() => {
+		const response = await agent.get('https://api.github.com/repos/aperdomob/jasmine-awesome-report/git/trees/master')
+			.set('User-Agent', 'agent');
+		expect(response.status).to.equal(200);
+		const readme_tree = response.body.tree.find(tree => tree.path === 'README.md');
+		expect(readme_tree).to.containSubset({
+			path:'README.md',
+			sha:'1eb7c4c6f8746fcb3d8767eca780d4f6c393c484'
+		});
+		//	FALTA DESCARGAR README Y REVISAR MD5
 	});
 });
