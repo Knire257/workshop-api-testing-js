@@ -22,7 +22,7 @@ describe('Consuming method GET github', () => {
 		const repos_dir = repos.body;
 		const repo_jasmine = repos_dir.find(repo => repo.name === 'jasmine-awesome-report')
 		expect(repo_jasmine.full_name).to.equal('aperdomob/jasmine-awesome-report');
-		expect(repo_jasmine.visibility).to.equal('public' || 'private');
+		expect(repo_jasmine.visibility).to.equal('public');
 		expect(repo_jasmine).to.have.property('description');
 	});
 	it('Downloading repo', async () => {

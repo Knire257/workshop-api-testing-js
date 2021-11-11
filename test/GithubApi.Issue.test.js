@@ -19,11 +19,11 @@ describe('Consuming methods POST and PATCH', ()=> {
  		const repos = await agent.get(response.body.repos_url)
  			.auth('token', token)
  			.set('User-Agent', 'agent');
- 		const repo_found = repos.body.find(repo => repo.name === 'Imagenes-A4');
- 		expect(repo_found.name).to.equal('Imagenes-A4');
+ 		const repo_found = repos.body.find(repo => repo.name === 'workshop-api-testing-js');
+ 		expect(repo_found.name).to.equal('workshop-api-testing-js');
 	});
 	it('using method POST', async () => {
-		const response = await agent.post('https://api.github.com/repos/Knire257/Imagenes-A4/issues')
+		const response = await agent.post('https://api.github.com/repos/Knire257/workshop-api-testing-js/issues')
 			.send({ title: 'Esto no es un problema' })
 			.auth('token', token)
  			.set('User-Agent', 'agent');
@@ -33,7 +33,7 @@ describe('Consuming methods POST and PATCH', ()=> {
 	});
 	it('editing an existent issue', async () => {
 		const issue_body = 'Esto es solo un ejercicio de otro proyecto que juega con github api';
-		const response = await agent.patch('https://api.github.com/repos/Knire257/Imagenes-A4/issues/'+issue_number)
+		const response = await agent.patch('https://api.github.com/repos/Knire257/workshop-api-testing-js/issues/'+issue_number)
 			.send({ body: issue_body })
 			.auth('token', token)
  			.set('User-Agent', 'agent');
