@@ -21,5 +21,11 @@ describe('Consuming service PUT github', ()=>{
  		const followed_user = response.body.find(user => user.login==='aperdomob');
  		expect(followed_user.login).to.equal('aperdomob');
 	});
-
+	it('following an user', async () => {
+		const response = await agent.put('https://api.github.com/user/following/aperdomob')
+		.auth('token', token)
+ 		.set('User-Agent', 'agent')
+ 		.set('accept', 'application/vnd.github.v3+json');
+ 		expect(response.status).to.equal(statusCode.NO_CONTENT);
+	});
 });
