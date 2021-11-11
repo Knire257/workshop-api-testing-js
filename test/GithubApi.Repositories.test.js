@@ -5,6 +5,9 @@ var chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
 const fs = require('fs');
 const { expect } = chai;
+const md5 = require('md5');
+
+var readme_tree;
 
 describe('Consuming method GET github', () => {
 	it('Consume GET Service', async () => {
@@ -41,11 +44,15 @@ describe('Consuming method GET github', () => {
 		const response = await agent.get('https://api.github.com/repos/aperdomob/jasmine-awesome-report/git/trees/master')
 			.set('User-Agent', 'agent');
 		expect(response.status).to.equal(200);
-		const readme_tree = response.body.tree.find(tree => tree.path === 'README.md');
+		readme_tree = response.body.tree.find(tree => tree.path === 'README.md');
 		expect(readme_tree).to.containSubset({
 			path:'README.md',
 			sha:'1eb7c4c6f8746fcb3d8767eca780d4f6c393c484'
 		});
-		//	FALTA DESCARGAR README Y REVISAR MD5
+	});
+	it('Checking README MD5', async () => {
+		const response = await agent.get(readme_tree.url)
+			.set('User-Agent', 'agent');
+		expect(md5(response.body)).to.equal('3449c9e5e332f1dbb81505cd739fbf3f');
 	});
 });
